@@ -1,4 +1,7 @@
 import styled from "styled-components"
+import {VscClose} from 'react-icons/vsc'
+import {GiHamburgerMenu} from 'react-icons/gi'
+
 
 let styleDefault = `
 background-color: rgba(4,7,7,0.9);
@@ -49,10 +52,19 @@ export default class NavStyle {
             position: fixed;
             top: 0;
             width: 100vw;
+            z-index: 99999999999;
             `
         )
     }
 
+    static hamburgerIcon() {
+        return (
+            styled(GiHamburgerMenu)`
+            color: white;
+            font-size: 7vh;
+            `
+        )
+    }
     static divHamburguer() {
         return (
             styled.div`
@@ -62,4 +74,17 @@ export default class NavStyle {
             `
         )
     }
+    static closeIcon() {
+        return (
+            styled(VscClose)`
+            color: white;
+            font-size: 7vh;
+            top: 1vh;
+            left: 1vh;
+            position: fixed;
+            `
+        )
+    }
+
+
 }

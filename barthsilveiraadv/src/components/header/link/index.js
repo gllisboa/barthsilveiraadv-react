@@ -18,7 +18,7 @@ export default function Link(props) {
             const A_IMG_HOME_MOBILE = Style.linkImgHomeMobile()
             const IMG_MOBILE = Style.imgMobile()
             return (
-                <A_IMG_HOME_MOBILE id={props.id} href={props.href}  src={props.imgLink}>
+                <A_IMG_HOME_MOBILE onClick={props.onClick} id={props.id} href={props.href}  src={props.imgLink}>
                     <IMG_MOBILE src={props.imgLink}></IMG_MOBILE>
                 </A_IMG_HOME_MOBILE>
                 )
@@ -39,7 +39,7 @@ export default function Link(props) {
         case "linkMobile":
             const A_MOBILE = Style.linkMobile()
             return (
-                <A_MOBILE id={props.id} href={props.href} >
+                <A_MOBILE onClick={props.onClick} id={props.id} href={props.href} >
                     {props.children}
                 </A_MOBILE>
                 )

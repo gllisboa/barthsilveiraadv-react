@@ -24,7 +24,7 @@ export default class StyleLink {
             styled.a`
             ${aStyle}
             font-size: 4vh;
-            padding: 1.8vh;
+            padding: 2.8vh;
             `
         )
     }
