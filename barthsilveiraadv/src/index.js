@@ -1,16 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Header from './componente/header/'
+import App from './app'
 import reportWebVitals from './reportWebVitals';
-import ListLinks from './fixtures/header/links/links'
 
-const links = ListLinks.getListLinksHome()
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Header links={links}></Header>
-  </React.StrictMode>,
+    <App />,
   document.getElementById('root')
 );
 
