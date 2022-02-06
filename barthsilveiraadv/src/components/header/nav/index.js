@@ -1,23 +1,36 @@
 import { useMediaQuery } from 'react-responsive'
-import {GiHamburgerMenu} from 'react-icons/gi'
 import Link from "../link"
-import React, {useState} from "react"
+import React, {useState, useEffect}  from "react"
 import Style from './style'
-import styled from 'styled-components'
 
 export default function Nav(props) {
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 830px)' })
+    const initialState = ''
+    const [menuMobile, setMenuMobile] = useState(initialState)
+    const setLinkComponentOnList = function(link, index, mobile = false, f = null) {
+        let type = `${link.type}`
+        if(mobile) {
+          type = `${link.type}Mobile`
+        }
+        return (
+            <Link onClick={f} typeLink={`${type}`} id={`id-${link.name}`} href={link.href} key={`${index}-${link.name}`} imgLink={link.img}>{link.name}</Link>
+        )
+    }
+
     let NAV = isTabletOrMobile ? Style.mobile() : Style.web()
-    let DIV_HAMBURGER = Style.divHamburguer()
+    if (isTabletOrMobile) {
+        var DIV_HAMBURGER = Style.divHamburguer()
+        var HAMBURGER_ICON = Style.hamburgerIcon()
+    }
 
-    const [menuMobile, setMenuMobile] = useState()
+    const listLinks = props.links.map((link, index) => setLinkComponentOnList(link, index))
 
-    const listLinks = props.links.map((link, index) => {
-        return(
-            <Link typeLink={link.type} id={`id-${link.name}`} href={link.href} key={`${index}-${link.name}`} imgLink={link.img}>{link.name}</Link>
-        )})
+    function closeMobileMenu() {
+        setMenuMobile(initialState)
+    }
 
     function openMobileMenu() {
+        console.log("openMobileMenu")
         let MENU_MOBILE = Style.menuMobile()
         let filterSocialMedia = function(value) {
             return value.type === "socialMedia"
@@ -25,17 +38,23 @@ export default function Nav(props) {
         let filterNoSocialMedia = function(value) {
             return value.type !== "socialMedia"
         }
-        let listLinkSocialMedia = props.links.filter(filterSocialMedia)
-        let listLinks = props.links.filter(filterNoSocialMedia)
-        let listLinksMobile = listLinks.map((link, index) => {
-            return(
-                <Link typeLink={`${link.type}Mobile`} id={`id-${link.name}`} href={link.href} key={`${index}-${link.name}`} imgLink={link.img}>{link.name}</Link>
-            )})
+
+        let listLinkMobileSocialMedia = props.links.filter(filterSocialMedia)
+            listLinkMobileSocialMedia = listLinkMobileSocialMedia.map((link,index) => setLinkComponentOnList(link,index,true))
+
+        let listLinksMobile = props.links.filter(filterNoSocialMedia)
+            listLinksMobile = listLinksMobile.map((link,index) => setLinkComponentOnList(link,index,true,closeMobileMenu))
+
+        let CLOSE_ICON = Style.closeIcon()
+
+        console.log(listLinksMobile)
+
         setMenuMobile(
-            <MENU_MOBILE>
+            <MENU_MOBILE id="id-menu-mobile">
+                <CLOSE_ICON onClick={closeMobileMenu}/>
                 {listLinksMobile}
                 <div>
-                    {listLinkSocialMedia}
+                    {listLinkMobileSocialMedia}
                 </div>
             </MENU_MOBILE>
         )
@@ -43,15 +62,17 @@ export default function Nav(props) {
 
     return (
         isTabletOrMobile ?
+        <div>
+        {menuMobile}
         <a onClick={openMobileMenu}>
         <NAV>
-            {menuMobile}
             {listLinks[0]}
             <DIV_HAMBURGER>
-                <GiHamburgerMenu size={60} color={'white'}/>
+                <HAMBURGER_ICON/>
             </DIV_HAMBURGER>
         </NAV>
         </a>
+        </div>
         : <NAV>
             {listLinks}
         </NAV>
